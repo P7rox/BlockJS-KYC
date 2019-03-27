@@ -38,9 +38,9 @@ app.post('/mine', (req, res) => {
     res.redirect('/blocks');
 });
 
-app.post('/check-verification', (req, res) => {
-    const { docName, docIpfsHash, docType } = req.body;
-    const status = documentParser.checkVerification( docName, docIpfsHash, docType );
+app.post('/check', (req, res) => {
+    const { customer, docName, docIpfsHash, docType } = req.body;
+    const status = documentParser.checkDocStatus( customer, docName, docIpfsHash, docType );
     res.json(status);
 });
 

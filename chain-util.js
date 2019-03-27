@@ -37,10 +37,10 @@ class ChainUtil {
         return uuidV1();
     }
 
-    static docId( string ) {
+    static docId( docIpfsHash,docType,docName ) {
         const uuid_base = uuidV5('https://p7rox.github.io/', uuidV5.DNS );
         const uuid_document = uuidV5('document', uuid_base );
-        return uuidV5( string, uuid_document );
+        return uuidV5( docIpfsHash+docType+docName, uuid_document );
     }
 
     static hash(data) {

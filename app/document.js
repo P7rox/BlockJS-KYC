@@ -1,3 +1,5 @@
+const chainUtil = require('../chain-util');
+
 class DocumentParser {
     constructor(blockchain, wallet) {
         this.blockchain = blockchain;
@@ -58,6 +60,38 @@ class DocumentParser {
             }
         });
         return newDocArray;
+    }
+
+    checkDocStatus( customer, documentName, documentAddress, docType ) {
+        return this.checkSubmittedDoc( customer, chainUtil.docId(documentAddress,docType,documentName) )
+    }
+
+    checkSubmittedDoc( customer, docId ) {
+        this.blockchain.chain.forEach(block => block.data.forEach(transaction => {
+            transactions.push(transaction);
+            if( transaction.input.address === customer ){
+                transaction.outputs.document.forEach(document => {
+                    if( document.documentId === docId && document.addressType === "verifier" ){
+                        return this.checkVerificationStatus( document.address, docId);
+                    }
+                });
+            }
+        }));
+        return false;
+    };
+
+    checkVerificationStatus( verifier, docId ) {
+        this.blockchain.chain.forEach(block => block.data.forEach(transaction => {
+            transactions.push(transaction);
+            if( transaction.input.address === verifier ){
+                transaction.outputs.document.forEach(document => {
+                    if( document.documentId === docId && document.addressType === "client" ){
+                        return true;
+                    }
+                });
+            }
+        }));
+        return false;
     }
 
     listDocument() {

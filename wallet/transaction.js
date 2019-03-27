@@ -21,9 +21,9 @@ class Transaction {
         senderOutput.amount = senderOutput.amount - amount;
         this.outputs.payment.push({ amount, address: recipient });
         if(typeFlag){
-            this.outputs.document.push({ documentId: ChainUtil.docId(docIpfsHash+docType+docName), documentName: docName, documentAddress: docIpfsHash, docType, address: verifier, addressType: "verifier"});
+            this.outputs.document.push({ documentId: ChainUtil.docId(docIpfsHash,docType,docName), documentName: docName, documentAddress: docIpfsHash, docType, address: verifier, addressType: "verifier"});
         }else {
-            this.outputs.document.push({ documentId: ChainUtil.docId(docIpfsHash+docType+docName), documentName: docName, documentAddress: docIpfsHash, docType, address: verifier, addressType: "client"});
+            this.outputs.document.push({ documentId: ChainUtil.docId(docIpfsHash,docType,docName), documentName: docName, documentAddress: docIpfsHash, docType, address: verifier, addressType: "client"});
         }
         Transaction.signTransaction(this, senderWallet);    
 
@@ -50,14 +50,14 @@ class Transaction {
                 { amount: senderWallet.balance - amount, address: senderWallet.publicKey },
                 { amount, address: recipient }
                 ],[
-                { documentId: ChainUtil.docId(docIpfsHash+docType+docName), documentName: docName, documentAddress: docIpfsHash, docType, address: verifier, addressType: "verifier"}
+                { documentId: ChainUtil.docId(docIpfsHash,docType,docName), documentName: docName, documentAddress: docIpfsHash, docType, address: verifier, addressType: "verifier"}
             ]);
         } else {
             return Transaction.transactionWithOutputs(senderWallet, [
                 { amount: senderWallet.balance - amount, address: senderWallet.publicKey },
                 { amount, address: recipient }
                 ],[
-                { documentId: ChainUtil.docId(docIpfsHash+docType+docName), documentName: docName, documentAddress: docIpfsHash, docType, address: verifier, addressType: "client"}
+                { documentId: ChainUtil.docId(docIpfsHash,docType,docName), documentName: docName, documentAddress: docIpfsHash, docType, address: verifier, addressType: "client"}
             ]);
         }
     }
